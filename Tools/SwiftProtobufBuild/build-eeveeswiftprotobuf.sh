@@ -54,7 +54,8 @@ xcodebuild \
     INSTALL_PATH="/Library/Frameworks" \
     ONLY_ACTIVE_ARCH=NO \
     ARCHS=arm64 \
-    -quiet
+    -quiet \
+    2>&1 | awk '!/^(note:|warning:.*deprecated|$)/'
 popd >/dev/null
 
 # ── 3. Locate the built framework ───────────────────────────────────────────
