@@ -39,6 +39,7 @@ SRC_DIR="$BUILD_DIR/swift-protobuf-$SWIFTPROTOBUF_VERSION"
 
 # ── 2. Build with xcodebuild, overriding the module/product name ────────────
 echo "==> Building $FRAMEWORK_NAME.framework (iOS arm64, release)"
+pushd "$SRC_DIR" >/dev/null
 xcodebuild \
     -scheme "$ORIGINAL_NAME" \
     -destination "generic/platform=iOS" \
@@ -53,8 +54,8 @@ xcodebuild \
     INSTALL_PATH="/Library/Frameworks" \
     ONLY_ACTIVE_ARCH=NO \
     ARCHS=arm64 \
-    -quiet \
-    2>&1 | grep -Ev "^(note:|warning:.*deprecated|$)" || true
+    -quiet
+popd >/dev/null
 
 # ── 3. Locate the built framework ───────────────────────────────────────────
 BUILT="$(find "$BUILD_DIR/derived" \
